@@ -3,7 +3,7 @@ import sys
 import time
 from selenium import webdriver
 from tkinter import *
-from tkinter import filedialog, simpledialog, messagebox, Spinbox
+from tkinter import filedialog, messagebox
 
 def close():
     sys.exit()
@@ -39,9 +39,10 @@ def button_action():
 
 
 def openfile():
-    global varis
-    fileEnt = filedialog.askopenfilename()
-    filelabel.config(text="Datei geladen")
+    global fileEnt
+    fileEnt = filedialog.askopenfilenames()
+    if (fileEnt != ""):
+        filelabel.config(text="Datei geladen")
 
 #baut GUI
 fenster = Tk()
@@ -109,7 +110,8 @@ for i in range(int(varis["loops"])):
     driver.find_element_by_id('body').send_keys(varis["text"])
 
     if (fileEnt != ''):
-        driver.find_element_by_id('file').send_keys(fileEnt)
+        for x in fileEnt:
+            driver.find_element_by_id('file').send_keys(x)
         element = driver.find_element_by_xpath(upload).click()
 
     driver.find_element_by_name('send_mail').click()
